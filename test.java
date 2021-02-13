@@ -39,7 +39,7 @@ public class test {
         myList.addFront(10);
         System.out.println(myList.toString());
         System.out.println("Size: " + myList.size());
-        myList.removeFront();
+        myList.removeHead();
         System.out.println(myList.toString());
         System.out.println("Size: " + myList.size());
         myList.empty();
@@ -50,5 +50,32 @@ public class test {
         System.out.println(myList.toString());
         System.out.println("Size: " + myList.size());
         
+        System.out.println();
+        System.out.println("*************************NEW TESTS*********************");
+        System.out.println();
+
+        myList.empty();
+        for(int num : numbers){
+            System.out.println("Adding: " + num);
+            myList.addBack(num); 
+            System.out.println(myList.toString());
+            System.out.println("Size: " + myList.size());
+        }
+
+
+        System.out.println();
+        
+        while(myList.size() != 0){
+            System.out.println("Removing tail");
+            myList.removeTail();
+            System.out.println(myList.toString());
+        }
+        
+        System.out.println();
+        myList.add(5);
+        myList.add(10);
+        myList.removeHead();
+        myList.addFront(15);
+        System.out.println(myList.toString());
     }
 }

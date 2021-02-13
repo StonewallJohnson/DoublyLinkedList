@@ -55,11 +55,15 @@ public class DoublyLinkedList<E>{
      * @param val value to be added
      */
     public void addFront(E val){
-        Node<E> temp = new Node<E>(null, val, head);
-        head = temp;
         if(size() == 0){
-            //adding head node, so also tail
-            tail = head;
+            //adding first node
+            addFirstNodeOfList(val);
+        }
+        else{
+            //non first node
+            Node<E> temp = new Node<E>(null, val, head);
+            head.previous = temp;
+            head = temp;
         }
         size++;
     }
@@ -69,13 +73,23 @@ public class DoublyLinkedList<E>{
      * @param val value to add
      */
     public void addBack(E val){
-        Node<E> temp = new Node<E>(tail, val, null);
-        tail = temp;
         if(size() == 0){
-            //adding head node
-            head = tail;
+            //adding first node
+            addFirstNodeOfList(val);
+        }
+        else{
+            //adding non first node
+            Node<E> temp = new Node<E>(tail, val, null);
+            tail.next = temp;
+            tail = temp;
         }
         size++;
+    }
+
+    private void addFirstNodeOfList(E val){
+        Node<E> temp = new Node<E>(val);
+        head = temp;
+        tail = temp;
     }
 
     /**
@@ -168,7 +182,7 @@ public class DoublyLinkedList<E>{
             if(temp.next != null){
                 //val is found
                 temp.next = temp.next.next;
-                temp.next = temp;
+                temp.next.previous = temp;
             }
             size--;
         }
