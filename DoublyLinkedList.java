@@ -1,6 +1,7 @@
 public class DoublyLinkedList<E>{
     private int size;
     Node<E> head;
+    Node<E> tail;
 
     private class Node<T>{
         private T con;
@@ -21,6 +22,7 @@ public class DoublyLinkedList<E>{
     public DoublyLinkedList(){
         size = 0;
         head = null;
+        tail = null;
     }
 
     /**
@@ -33,6 +35,7 @@ public class DoublyLinkedList<E>{
         if(size == 0){
             //adding head
             head = new Node<E>(val);
+            tail = head;
         }
         else{
             //adding other
@@ -41,7 +44,8 @@ public class DoublyLinkedList<E>{
                 //until last node
                 temp = temp.next;
             }
-            temp.next = new Node<E>(val);
+            temp.next = new Node<E>(temp, val, null);
+            tail = temp.next;
         }
         size++;
     }
@@ -53,6 +57,24 @@ public class DoublyLinkedList<E>{
     public void addFront(E val){
         Node<E> temp = new Node<E>(null, val, head);
         head = temp;
+        if(size() == 0){
+            //adding head node, so also tail
+            tail = head;
+        }
+        size++;
+    }
+
+    /**
+     * Adds a value to the end of the linked list
+     * @param val value to add
+     */
+    public void addBack(E val){
+        Node<E> temp = new Node<E>(tail, val, null);
+        tail = temp;
+        if(size() == 0){
+            //adding head node
+            head = tail;
+        }
         size++;
     }
 
@@ -89,14 +111,53 @@ public class DoublyLinkedList<E>{
     }
 
     /**
+     * @return the value of the tail node
+     */
+    public E getTail(){
+        return tail.con;
+    }
+    
+    /**
+     * Removes the head node from the list
+     */
+    public void removeHead(){
+        if(size() == 1){
+            //only node in list
+            empty();
+        }
+        else{
+            //removing head that is not last node
+            head = head.next;
+            head.previous = null;
+            size--;
+        }
+    }
+
+    public void removeTail(){
+        if(size() == 1){
+            //removing last node
+            empty();
+        }
+        else{
+            //removing non-last tail
+            tail = tail.previous;
+            tail.next = null;
+            size--;
+        }
+    }
+
+    /**
      * Removes the given value from the linked list
      * @param val the value to be removed
      */
     public void remove(E val){
         Node<E> temp = head;
         if(temp.con.equals(val)){
-            //removing head
-            head = head.next;
+            removeHead();
+        }
+        else if(tail.con.equals(val)){
+            //removing tail
+            removeTail();
         }
         else{
             //removing internal node
@@ -107,24 +168,10 @@ public class DoublyLinkedList<E>{
             if(temp.next != null){
                 //val is found
                 temp.next = temp.next.next;
+                temp.next = temp;
             }
-        }
-        size--;
-    }
-    
-    /**
-     * Removes the head
-     */
-    public E removeFront(){
-        E val = head.con;
-        if(size > 0){
-            head = head.next;
             size--;
         }
-        else{
-            System.out.println("bad");
-        }
-        return val;
     }
 
     /**
@@ -132,6 +179,7 @@ public class DoublyLinkedList<E>{
      */
     public void empty(){
         head = null;
+        tail = null;
         size = 0;
     }
 
