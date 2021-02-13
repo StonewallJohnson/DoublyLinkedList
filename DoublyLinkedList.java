@@ -34,8 +34,7 @@ public class DoublyLinkedList<E>{
         
         if(size == 0){
             //adding head
-            head = new Node<E>(val);
-            tail = head;
+            addFirstNodeOfList(val);
         }
         else{
             //adding other
